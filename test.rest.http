@@ -1,0 +1,25 @@
+POST http://localhost:9999/api/tokens
+Content-Type: application/json
+
+{
+  "username": "vasya",
+  "password": "admsdin"
+}
+
+###
+
+POST http://localhost:9999/api/0
+Content-Type: application/json
+
+{
+  "username": "Vasya",
+  "user_login": "vasya",
+  "password": "admin"
+}
+
+###
+
+POST http://localhost:9999/api/users/me
+Authorization:  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZXhwIjoxNTg0ODY4MjkzLCJuYW1lX3N1cm5hbWUiOiJWYXN5YSIsInJvbGVzIjpbInVzZXIiLCJhZG1pbiJdfQ.Qw0lBTagtQi9ByMIBM04PI1B0O7GlfDL9tZqpFr7hPA"
+###
+
