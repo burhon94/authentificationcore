@@ -23,3 +23,6 @@ POST http://localhost:9999/api/users/me
 Authorization:  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZXhwIjoxNTg0ODY4MjkzLCJuYW1lX3N1cm5hbWUiOiJWYXN5YSIsInJvbGVzIjpbInVzZXIiLCJhZG1pbiJdfQ.Qw0lBTagtQi9ByMIBM04PI1B0O7GlfDL9tZqpFr7hPA"
 ###
 
+GET http://localhost:9999/api/health
+
+###

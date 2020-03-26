@@ -9,6 +9,12 @@ import (
 )
 
 func (s *Server) InitRoutes() {
+	s.router.GET(
+		"/api/health",
+		s.handleHealth(),
+		logger.Logger("health"),
+		)
+
 	s.router.POST(
 		"/api/tokens",
 		s.handleCreateToken(),

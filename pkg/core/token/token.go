@@ -1,9 +1,9 @@
 package token
 
 import (
-	"authCore/pkg/jwt"
 	"context"
 	"errors"
+	"github.com/burhon94/authentificationcore/pkg/jwt"
 	"github.com/jackc/pgx/v4/pgxpool"
 	"golang.org/x/crypto/bcrypt"
 	"time"

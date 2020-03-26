@@ -3,6 +3,7 @@ package app
 import (
 	"context"
 	"errors"
+	"fmt"
 	"github.com/burhon94/alifMux/pkg/mux"
 	"github.com/burhon94/authentificationcore/pkg/core/add"
 	"github.com/burhon94/authentificationcore/pkg/core/token"
@@ -120,5 +121,14 @@ func (s *Server) handleProfile() http.HandlerFunc {
 			log.Print(err)
 		}
 
+	}
+}
+
+func (s *Server) handleHealth() http.HandlerFunc {
+	return func(writer http.ResponseWriter, request *http.Request) {
+		_, err := fmt.Fprintf(writer, "Health ok")
+		if err != nil {
+			log.Printf("err: %v", err)
+		}
 	}
 }

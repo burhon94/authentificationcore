@@ -1,10 +1,10 @@
 package user
 
 import (
-	"authCore/pkg/core/token"
-	"authCore/pkg/middleware/jwt"
 	"context"
 	"errors"
+	"github.com/burhon94/authentificationcore/pkg/core/token"
+	"github.com/burhon94/authentificationcore/pkg/middleware/jwt"
 )
 
 type Service struct { }
