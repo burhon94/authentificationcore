@@ -42,7 +42,7 @@ func (s *Service) AddNewUser(context context.Context, request NewUser) (err erro
 		return err
 	}
 
-	avatar := "https://i.pravatar.cc/50"
+	avatar := "http://localhost:20000/web/media/18786405-a685-4726-951f-db336f300ef0.png"
 	role := []string {"user"}
 
 	_, err = s.pool.Exec(context, `INSERT INTO users (login, password, namesurname, avatar, roles) VALUES ($1, $2, $3, $4, $5);`, request.UserLogin, passCrypt, request.Username, avatar, role)

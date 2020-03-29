@@ -22,8 +22,6 @@ func NewService(secret jwt.Secret, pool *pgxpool.Pool) *Service {
 type UserStruct struct {
 	Id          int64    `json:"id"`
 	Exp         int64    `json:"exp"`
-	NameSurname string   `json:"name_surname"`
-	Roles       []string `json:"roles"`
 }
 
 type RequestDTO struct {
@@ -58,8 +56,6 @@ func (s *Service) Generate(context context.Context, request *RequestDTO) (respon
 	response.Token, err = jwt.Encode(UserStruct{
 		Id:          id,
 		Exp:         time.Now().Add(time.Hour).Unix(),
-		NameSurname: userName,
-		Roles:       roles,
 	}, s.secret)
 	if err != nil {
 		return ResponseDTO{}, err

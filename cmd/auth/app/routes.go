@@ -12,7 +12,7 @@ func (s *Server) InitRoutes() {
 	s.router.GET(
 		"/api/health",
 		s.handleHealth(),
-		logger.Logger("health"),
+		logger.Logger("HEALTH"),
 		)
 
 	s.router.POST(
@@ -24,7 +24,7 @@ func (s *Server) InitRoutes() {
 	s.router.POST(
 		"/api/users/0",
 		s.handleAddUser(),
-		logger.Logger("Registration"),
+		logger.Logger("REGISTRATION"),
 	)
 
 	s.router.GET(
@@ -34,4 +34,28 @@ func (s *Server) InitRoutes() {
 		jwt.JWT(reflect.TypeOf((*token.UserStruct)(nil)).Elem(), s.secret),
 		logger.Logger("USERS"),
 	)
+
+	s.router.POST(
+		"/api/users/{id}/edit",
+		s.handleUpdateUser(),
+		authenticated.Authenticated(jwt.IsContextNonEmpty),
+		jwt.JWT(reflect.TypeOf((*token.UserStruct)(nil)).Elem(), s.secret),
+		logger.Logger("USERS_EDIT"),
+		)
+
+	s.router.POST(
+		"/api/users/{id}/pass",
+		s.handleCheckPass(),
+		authenticated.Authenticated(jwt.IsContextNonEmpty),
+		jwt.JWT(reflect.TypeOf((*token.UserStruct)(nil)).Elem(), s.secret),
+		logger.Logger("USERS_EDIT"),
+	)
+
+	s.router.POST(
+		"/api/users/{id}/edit/pass",
+		s.handleUpdatePass(),
+		authenticated.Authenticated(jwt.IsContextNonEmpty),
+		jwt.JWT(reflect.TypeOf((*token.UserStruct)(nil)).Elem(), s.secret),
+		logger.Logger("USERS_CHECK_PASS"),
+		)
 }
