@@ -80,3 +80,12 @@ func (s *Service) UpdatePass(ctx context.Context, id int64, pass string) (err er
 
 	return nil
 }
+
+func (s *Service) UpdateAvatar(ctx context.Context, id int64, avatarUrl string) (err error) {
+	_, err = s.pool.Exec(ctx, `UPDATE users SET avatar = $2 WHERE id = $1;`, id, avatarUrl)
+	if err != nil {
+		return errors.New("error ")
+	}
+
+	return nil
+}

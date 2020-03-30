@@ -32,6 +32,11 @@ type userUpdatePass struct {
 	Pass string `json:"pass"`
 }
 
+type userUpdateAvatar struct {
+	Id   int64  `json:"id"`
+	AvatarUrl string `json:"avatar_url"`
+}
+
 func (s *Server) handleCreateToken() http.HandlerFunc {
 	return func(writer http.ResponseWriter, request *http.Request) {
 		var body token.RequestDTO
@@ -106,7 +111,7 @@ func (s *Server) handleProfile() http.HandlerFunc {
 			return
 		}
 
-		ctx, _ := context.WithTimeout(request.Context(), time.Hour)
+		ctx, _ := context.WithTimeout(request.Context(), time.Second)
 		response, err := s.userSvc.Profile(ctx)
 		if err != nil {
 			writer.WriteHeader(http.StatusBadRequest)
@@ -149,7 +154,7 @@ func (s *Server) handleUpdateUser() http.HandlerFunc {
 			return
 		}
 
-		ctx, _ := context.WithTimeout(request.Context(), time.Hour)
+		ctx, _ := context.WithTimeout(request.Context(), time.Second)
 		id := dataRequest.Id
 
 		err = s.userSvc.UpdateUser(ctx, id, dataRequest.NameSurname)
@@ -188,7 +193,7 @@ func (s *Server) handleCheckPass() http.HandlerFunc {
 			return
 		}
 
-		ctx, _ := context.WithTimeout(request.Context(), time.Hour)
+		ctx, _ := context.WithTimeout(request.Context(), time.Second)
 		id := dataRequest.Id
 		userData, err := s.userSvc.CheckPass(ctx, id)
 		if err != nil {
@@ -222,7 +227,7 @@ func (s *Server) handleUpdatePass() http.HandlerFunc {
 			return
 		}
 
-		ctx, _ := context.WithTimeout(request.Context(), time.Hour)
+		ctx, _ := context.WithTimeout(request.Context(), time.Second)
 		id := dataRequest.Id
 		pass, err := bcrypt.GenerateFromPassword([]byte(dataRequest.Pass), bcrypt.DefaultCost)
 		if err != nil {
@@ -234,6 +239,46 @@ func (s *Server) handleUpdatePass() http.HandlerFunc {
 		}
 
 		err = s.userSvc.UpdatePass(ctx, id, string(pass))
+		if err != nil {
+			writer.WriteHeader(http.StatusBadRequest)
+			err = jsonWriter.WriteJSONHTTP(writer, &ErrorDTO{
+				[]string{"err.bad_request"},
+			})
+			return
+		}
+
+		err = jsonWriter.WriteJSONHTTP(writer, struct {
+			Status string `json:"status"`
+		}{
+			"ok",
+		})
+		if err != nil {
+			writer.WriteHeader(http.StatusBadRequest)
+			err = jsonWriter.WriteJSONHTTP(writer, &ErrorDTO{
+				[]string{"err.bad_request"},
+			})
+			return
+		}
+	}
+}
+
+func (s *Server) handleUpdateAvatar() http.HandlerFunc {
+	return func(writer http.ResponseWriter, request *http.Request) {
+		var dataRequest userUpdateAvatar
+		err := jsonReader.ReadJSONHTTP(request, &dataRequest)
+		if err != nil {
+			writer.WriteHeader(http.StatusBadRequest)
+			err = jsonWriter.WriteJSONHTTP(writer, &ErrorDTO{
+				[]string{"err.bad_request"},
+			})
+			return
+		}
+
+		ctx, _ := context.WithTimeout(request.Context(), time.Second)
+		id := dataRequest.Id
+		avatarUrl := dataRequest.AvatarUrl
+
+		err = s.userSvc.UpdateAvatar(ctx, id, avatarUrl)
 		if err != nil {
 			writer.WriteHeader(http.StatusBadRequest)
 			err = jsonWriter.WriteJSONHTTP(writer, &ErrorDTO{

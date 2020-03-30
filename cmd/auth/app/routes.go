@@ -13,7 +13,7 @@ func (s *Server) InitRoutes() {
 		"/api/health",
 		s.handleHealth(),
 		logger.Logger("HEALTH"),
-		)
+	)
 
 	s.router.POST(
 		"/api/tokens",
@@ -41,14 +41,14 @@ func (s *Server) InitRoutes() {
 		authenticated.Authenticated(jwt.IsContextNonEmpty),
 		jwt.JWT(reflect.TypeOf((*token.UserStruct)(nil)).Elem(), s.secret),
 		logger.Logger("USERS_EDIT"),
-		)
+	)
 
 	s.router.POST(
 		"/api/users/{id}/pass",
 		s.handleCheckPass(),
 		authenticated.Authenticated(jwt.IsContextNonEmpty),
 		jwt.JWT(reflect.TypeOf((*token.UserStruct)(nil)).Elem(), s.secret),
-		logger.Logger("USERS_EDIT"),
+		logger.Logger("USERS_CHECK_PASS"),
 	)
 
 	s.router.POST(
@@ -56,6 +56,14 @@ func (s *Server) InitRoutes() {
 		s.handleUpdatePass(),
 		authenticated.Authenticated(jwt.IsContextNonEmpty),
 		jwt.JWT(reflect.TypeOf((*token.UserStruct)(nil)).Elem(), s.secret),
-		logger.Logger("USERS_CHECK_PASS"),
+		logger.Logger("USERS_EDIT_PASS"),
+	)
+
+	s.router.POST(
+		"/api/users/{id}/edit/avatar",
+		s.handleUpdateAvatar(),
+		authenticated.Authenticated(jwt.IsContextNonEmpty),
+		jwt.JWT(reflect.TypeOf((*token.UserStruct)(nil)).Elem(), s.secret),
+		logger.Logger("USERS_EDIT_AVATAR"),
 		)
 }
